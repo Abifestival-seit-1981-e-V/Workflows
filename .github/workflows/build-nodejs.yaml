@@ -1,4 +1,4 @@
-name: 🚀 Deploy to FTP Server
+name: 🚀 Build nodejs
 
 on:
   workflow_call:
@@ -11,8 +11,6 @@ on:
       node-version:
         type: string
         default: '16'
-      env:
-        type: object
     secrets:
       password:
         required: true
@@ -29,7 +27,6 @@ jobs:
         with:
           node-version: ${{ input.node-version }}
       - name: 🎉 Build
-        env: ${{ input.env }}
         run: |
           npm ci
           npm run export
