@@ -22,7 +22,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: ${{ input.node-version }}
+          node-version: ${{ inputs.node-version }}
       - name: 🎉 Build
         run: |
           npm ci
@@ -32,5 +32,5 @@ jobs:
       - name: Save artifact
         uses: actions/upload-artifact@v3
         with:
-          name: ${{ input.build-artifact-name }}
-          path: ${{ input.build-folder }}
+          name: ${{ inputs.build-artifact-name }}
+          path: ${{ inputs.build-folder }}
