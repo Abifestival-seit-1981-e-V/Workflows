@@ -12,7 +12,7 @@ on:
         type: string
         default: '16'
       env:
-        type: string
+        type: object
     secrets:
       password:
         required: true
