@@ -11,9 +11,6 @@ on:
       node-version:
         type: string
         default: '16'
-    secrets:
-      password:
-        required: true
 
 jobs:
   Build:
