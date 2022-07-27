@@ -1,0 +1,42 @@
+name: 🚀 Deploy to FTP Server
+
+on:
+  workflow_call:
+    inputs:
+      build-artifact-name:
+        required: true
+        type: string
+      build-folder:
+        type: string
+      node-version:
+        type: string
+        default: '16'
+      env:
+        type: string
+    secrets:
+      password:
+        required: true
+
+jobs:
+  Build:
+    name: 🚀 Build nodejs
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ input.node-version }}
+      - name: 🎉 Build
+        env: ${{ input.env }}
+        run: |
+          npm ci
+          npm run export
+      - name: 📰 List output files
+        run: ls out
+      - name: Save artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ input.build-artifact-name }}
+          path: ${{ input.build-folder }}

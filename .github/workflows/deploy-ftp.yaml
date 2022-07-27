@@ -1,0 +1,53 @@
+name: 🚀 Deploy to FTP Server
+
+on:
+  workflow_call:
+    inputs:
+      build-artifact-name:
+        required: true
+        type: string
+      server:
+        required: true
+        type: string
+      username:
+        required: true
+        type: string
+      protocol:
+        required: true
+        type: choice    
+        default: ftp
+        options: 
+        - ftp
+        - sftp
+      local-dir:
+        type: string
+        default: ./
+      server-dir:
+        type: string
+        default: /
+    secrets:
+      password:
+        required: true
+
+jobs:
+  deploy-to-ftp-server:
+    name: 🚀 Deploy to FTP Server
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download a single artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: ${{ inputs.build-artifact-name }}
+
+      - name: 📰 List output files
+        run: ls ./
+
+      - name: 📂 SFTP-Deploy-Action
+        uses: SamKirkland/FTP-Deploy-Action@4.3.0
+        with:
+          server: ${{ input.server }}
+          protocol: ${{ input.protocol }}
+          username: ${{ input.username }}
+          password: ${{ secrets.password }}
+          local-dir: ${{ input.local-dir }}
+          server-dir: ${{ input.server-dir }}
